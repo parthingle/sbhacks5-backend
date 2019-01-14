@@ -167,12 +167,7 @@ function isValidRequest (req, res, pathname) {
     const data = await spclient.recognize(audioRequest);
     const sresponse = await data[0];
     const transcription = await sresponse.results.map(result => result.alternatives[0].transcript).join('\n');
-    // console.log(typeof transcription);
-    // console.log(transcription);
-    // console.log('\nTest String\n');
     const splitlist = transcription.split('.');
-    // console.log(typeof splitlist);
-    // console.log(splitlist);
     var testarr = [];
 
     for(var i = 0; i < splitlist.length; i++){
@@ -189,10 +184,6 @@ function isValidRequest (req, res, pathname) {
     }
     jsonout = jsonout.substring(0, jsonout.length-2)
     jsonout += '\n]\n}';
-
-    // console.log("transform...");
-    // console.log(typeof testarr)
-    // console.log(testarr)
     const filename = `${dir}/analysis.json`;
     console.log(`Saving gs://${object.bucket}/${filename}`);
     fire.collection("analyses").add(JSON.parse(jsonout)).then(()=>{console.log('posted')}).catch((err) => {console.error(err)})
@@ -200,7 +191,4 @@ function isValidRequest (req, res, pathname) {
     return bucket
         .file("analysis.json")
         .save(jsonout)
-    // return bucket
-    //     .file(filename)
-    //     .save(JSON.stringify(responses[0].documentSentiment, null, 1));
 };
